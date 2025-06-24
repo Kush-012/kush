@@ -33,7 +33,7 @@ function About() {
   return (
     <div id="about" className="px-4 pt-10 sm:px-0">
       <motion.p
-        className="text-4xl font-bold text-center text-green-400 mt-44" // Reduced mt-64 to mt-44
+        className="text-4xl font-bold text-center text-green-400 mt-44 sm:mt-10" 
         initial={{ y: 100, opacity: 0 }}
         animate={
           shouldAnimate && boxInView
@@ -55,7 +55,7 @@ function About() {
             : { scale: shouldAnimate ? 1 : 0.8, opacity: shouldAnimate ? 1 : 0 }
         }
         transition={{ duration: 0.3, ease: "easeOut" }}
-      >
+      > 
         <p className="p-2 text-2xl font-thin text-white">
           I'm a Full Stack Web Developer with a passion for building
           user-friendly digital experiences. I enjoy working through the
