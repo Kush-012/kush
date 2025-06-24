@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "/kush/static/css/main.e6c13ad2.css",
+    "main.js": "/kush/static/js/main.745810bc.js",
+    "static/js/453.ed3810f9.chunk.js": "/kush/static/js/453.ed3810f9.chunk.js",
+    "static/media/pic.jpg": "/kush/static/media/pic.764115191225018d49e7.jpg",
+    "static/media/sql-server-icon-png-11368.png": "/kush/static/media/sql-server-icon-png-11368.0090a77e30cd431e1988.png",
+    "static/media/github-white-icon.png": "/kush/static/media/github-white-icon.cc7d438083610e33e8f7.png",
+    "static/media/java-svgrepo-com.svg": "/kush/static/media/java-svgrepo-com.3d1f1777f72c1a4ca3003a5378491322.svg",
+    "static/media/php-svgrepo-com.svg": "/kush/static/media/php-svgrepo-com.099cd051f27e93830fcdb7b1ac05bc40.svg",
+    "static/media/cpp-svgrepo-com.svg": "/kush/static/media/cpp-svgrepo-com.8747b38f9a5bd1cc0f8e71dad8860c4b.svg",
+    "static/media/js-svgrepo-com.svg": "/kush/static/media/js-svgrepo-com.fef7215d0d3e578f01ad70419d4c4308.svg",
+    "index.html": "/kush/index.html",
+    "static/media/html-5.svg": "/kush/static/media/html-5.5469179cbebd3faf12bc6822260a03f7.svg",
+    "static/media/css-3-svgrepo-com.svg": "/kush/static/media/css-3-svgrepo-com.315b8fdb9dbf75ae965b80bf368895cd.svg",
+    "main.e6c13ad2.css.map": "/kush/static/css/main.e6c13ad2.css.map",
+    "main.745810bc.js.map": "/kush/static/js/main.745810bc.js.map",
+    "453.ed3810f9.chunk.js.map": "/kush/static/js/453.ed3810f9.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e6c13ad2.css",
+    "static/js/main.745810bc.js"
+  ]
+}
