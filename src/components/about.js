@@ -4,13 +4,34 @@ import { useInView } from "react-intersection-observer";
 
 function About() {
   const [shouldAnimate, setShouldAnimate] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const prevScrollY = useRef(0);
+  
+  // Mobile-optimized intersection observer
+  const [titleRef, titleInView] = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
+  
   const [boxRef, boxInView] = useInView({
-    triggerOnce: false,
-    threshold: 0.5,
+    triggerOnce: isMobile,
+    threshold: isMobile ? 0.1 : 0.5,
   });
 
   useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  useEffect(() => {
+    if (isMobile) return; // Skip scroll logic on mobile
+    
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
       
@@ -28,34 +49,43 @@ function About() {
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [boxInView]);
+  }, [boxInView, isMobile]);
 
   return (
     <div id="about" className="px-4 pt-10 sm:px-0">
       <motion.p
-        className="text-4xl font-bold text-center text-green-400 mt-44 sm:mt-10" 
-        initial={{ y: 100, opacity: 0 }}
+        ref={isMobile ? titleRef : undefined}
+        className="text-4xl font-bold text-center text-green-400 mt-44 sm:mt-10"
+        initial={{ y: isMobile ? 50 : 100, opacity: 0 }}
         animate={
-          shouldAnimate && boxInView
-            ? { y: 0, opacity: 1 }
-            : { y: shouldAnimate ? 0 : 100, opacity: shouldAnimate ? 1 : 0 }
+          isMobile 
+            ? (titleInView ? { y: 0, opacity: 1 } : { y: 50, opacity: 0 })
+            : (shouldAnimate && boxInView
+                ? { y: 0, opacity: 1 }
+                : { y: shouldAnimate ? 0 : 100, opacity: shouldAnimate ? 1 : 0 })
         }
-        transition={{ duration: 0.5 }}
+        transition={{ duration: isMobile ? 0.6 : 0.5, ease: "easeOut" }}
       >
         About Me
       </motion.p>
       
       <motion.div
         ref={boxRef}
-        className="p-4 py-6 m-4 mb-40 bg-gray-800 mx-auto max-w-5xl hover:shadow-[0_10px_20px_rgba(74,222,128,0.4)]"
-        initial={{ scale: 0.8, opacity: 0 }}
+        className="p-4 py-6 m-4 mb-40 bg-gray-800 mx-auto max-w-5xl hover:shadow-[0_10px_20px_rgba(74,222,128,0.4)] transition-shadow duration-300"
+        initial={{ scale: isMobile ? 1 : 0.8, y: isMobile ? 50 : 0, opacity: 0 }}
         animate={
-          shouldAnimate && boxInView
-            ? { scale: 1, opacity: 1 }
-            : { scale: shouldAnimate ? 1 : 0.8, opacity: shouldAnimate ? 1 : 0 }
+          isMobile
+            ? (boxInView ? { y: 0, opacity: 1 } : { y: 50, opacity: 0 })
+            : (shouldAnimate && boxInView
+                ? { scale: 1, opacity: 1 }
+                : { scale: shouldAnimate ? 1 : 0.8, opacity: shouldAnimate ? 1 : 0 })
         }
-        transition={{ duration: 0.3, ease: "easeOut" }}
-      > 
+        transition={{ 
+          duration: isMobile ? 0.8 : 0.3, 
+          ease: "easeOut", 
+          delay: isMobile ? 0.2 : 0 
+        }}
+      >
         <p className="p-2 text-2xl font-thin text-white">
           I'm a Full Stack Web Developer with a passion for building
           user-friendly digital experiences. I enjoy working through the
@@ -72,15 +102,17 @@ function About() {
 
         <div className="flex flex-col justify-center gap-16 mt-20 sm:flex-row">
           <button className="bg-green-400 text-black font-semibold px-6 py-2 rounded-full shadow-[0_0_10px_#4ade80] hover:shadow-[0_0_20px_#4ade80] transition duration-300 hover:bg-white text-2xl">
-            <a href="https://drive.google.com/file/d/1TQnuUGpQq851DvUSkM4_H0iKBCYNE7dx/view?usp=sharing"> Download Resume </a>
+            <a href="https://drive.google.com/file/d/1TQnuUGpQq851DvUSkM4_H0iKBCYNE7dx/view?usp=sharing">
+              Download Resume
+            </a>
           </button>
           
           <p className="text-center">
             <a href="https://www.linkedin.com/in/kushm1/">
-              <i className="px-3 text-5xl text-white cursor-pointer fa-brands fa-linkedin hover:scale-110 hover:text-green-400"></i>
+              <i className="px-3 text-5xl text-white transition-transform duration-200 cursor-pointer fa-brands fa-linkedin hover:scale-110 hover:text-green-400"></i>
             </a>
             <a href="https://www.github.com/Kush-012">
-              <i className="px-3 text-5xl text-white cursor-pointer fa-brands fa-github hover:scale-110 hover:text-green-400"></i>
+              <i className="px-3 text-5xl text-white transition-transform duration-200 cursor-pointer fa-brands fa-github hover:scale-110 hover:text-green-400"></i>
             </a>
           </p>
         </div>
