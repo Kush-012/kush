@@ -44,9 +44,8 @@ function Skills() {
       y: 0,
       opacity: 1,
       transition: {
-        type: "spring",
-        stiffness: 100,
-        damping: 10,
+        type: "tween",
+        duration: 0.3,
       },
     },
   };
@@ -57,83 +56,53 @@ function Skills() {
       opacity: 1,
       y: 0,
       transition: {
-        type: "spring",
-        stiffness: 100,
-        duration: 0.5,
+        type: "tween",
+        duration: 0.3,
       },
     },
   };
 
-   return (
-    <div className="px-4 py-16 bg-gray-900 sm:px-6 lg:px-8" id="skills">
+  return (
+    <div className="px-4 py-12 bg-gray-900 sm:px-6 lg:px-8" id="skills">
       <div className="mx-auto max-w-7xl">
         <motion.h1
-          className="mb-16 text-4xl font-bold text-center text-green-400"
+          className="mb-12 text-3xl font-bold text-center text-green-400 sm:text-4xl"
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
-          variants={{
-            hidden: { opacity: 0, y: -20 },
-            visible: {
-              opacity: 1,
-              y: 0,
-              transition: {
-                type: "spring",
-                stiffness: 100,
-                duration: 0.5,
-              },
-            },
-          }}
+          variants={headingVariants}
         >
           Tech Stack
           <motion.div 
-            className="w-24 h-1 mx-auto mt-4 bg-green-400 rounded-full"
+            className="w-20 h-1 mx-auto mt-3 bg-green-400 rounded-full sm:w-24 sm:mt-4"
             initial={{ scaleX: 0 }}
             animate={inView ? { scaleX: 1 } : { scaleX: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
+            transition={{ duration: 0.3, delay: 0.2 }}
           />
         </motion.h1>
         
         <motion.div
           ref={ref}
-          className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 px-44"
+          className="grid grid-cols-2 gap-4 px-2 sm:grid-cols-3 md:grid-cols-4 sm:px-4 lg:px-8"
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
-          variants={{
-            hidden: { opacity: 0 },
-            visible: {
-              opacity: 1,
-              transition: {
-                when: "beforeChildren",
-                staggerChildren: 0.1,
-              },
-            },
-          }}
+          variants={containerVariants}
+          role="list"
         >
           {skills.map((skill, index) => (
             <motion.div
               key={index}
               className="flex flex-col items-center group"
-              variants={{
-                hidden: { y: 20, opacity: 0 },
-                visible: {
-                  y: 0,
-                  opacity: 1,
-                  transition: {
-                    type: "spring",
-                    stiffness: 100,
-                    damping: 10,
-                  },
-                },
-              }}
+              variants={itemVariants}
+              role="listitem"
             >
-              <div className="relative flex items-center justify-center w-20 h-20 p-4 transition-all duration-300 bg-gray-800 rounded-2xl sm:w-24 sm:h-24 group-hover:bg-gray-700 group-hover:shadow-lg group-hover:shadow-green-400/10">
+              <div className="relative flex items-center justify-center w-16 h-16 p-3 transition-all duration-300 bg-gray-800 rounded-2xl sm:w-20 sm:h-20 sm:p-4 group-hover:bg-gray-700 group-hover:shadow-lg group-hover:shadow-green-400/10">
                 <img
                   src={skill.icon}
-                  className="object-contain w-12 h-12 transition-transform duration-300 sm:w-16 sm:h-16 group-hover:scale-110"
-                  alt={skill.name}
+                  className="object-contain w-10 h-10 transition-transform duration-300 sm:w-12 sm:h-12 group-hover:scale-110"
+                  alt={`${skill.name} icon`}
                 />
               </div>
-              <span className="mt-2 text-sm font-medium text-gray-300 transition-colors duration-300 group-hover:text-white">
+              <span className="mt-2 text-xs font-medium text-gray-300 transition-colors duration-300 group-hover:text-white sm:text-sm">
                 {skill.name}
               </span>
             </motion.div>
@@ -144,4 +113,4 @@ function Skills() {
   );
 }
 
-export default Skills; 
+export default Skills;
