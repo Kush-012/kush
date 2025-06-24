@@ -6,84 +6,87 @@ function About() {
   const [shouldAnimate, setShouldAnimate] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const prevScrollY = useRef(0);
-  
+
   // Mobile-optimized intersection observer
   const [titleRef, titleInView] = useInView({
     triggerOnce: true,
-    threshold: 0.1,
+    threshold: isMobile ? 0.05 : 0.1, // Lower threshold for mobile
   });
-  
+
   const [boxRef, boxInView] = useInView({
     triggerOnce: isMobile,
-    threshold: isMobile ? 0.1 : 0.5,
+    threshold: isMobile ? 0.05 : 0.5, // Lower threshold for mobile
   });
 
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
-    
+
     checkMobile();
-    window.addEventListener('resize', checkMobile);
-    
-    return () => window.removeEventListener('resize', checkMobile);
+    window.addEventListener("resize", checkMobile);
+
+    return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
   useEffect(() => {
     if (isMobile) return; // Skip scroll logic on mobile
-    
+
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      
+
       if (boxInView) {
         if (currentScrollY > prevScrollY.current) {
           setShouldAnimate(true);
-        }
-        else if (currentScrollY < prevScrollY.current - 100) {
+        } else if (currentScrollY < prevScrollY.current - 100) {
           setShouldAnimate(false);
         }
       }
-      
+
       prevScrollY.current = currentScrollY;
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, [boxInView, isMobile]);
 
   return (
-    <div id="about" className="px-4 pt-10 sm:px-0">
+    <div id="about" className="px-4 pt-4 sm:pt-10"> {/* Reduced pt-4 for mobile */}
       <motion.p
-        ref={isMobile ? titleRef : undefined}
-        className="text-4xl font-bold text-center text-green-400 mt-44 sm:mt-10"
-        initial={{ y: isMobile ? 50 : 100, opacity: 0 }}
+        ref={titleRef}
+        className="mt-10 text-4xl font-bold text-center text-green-400 sm:mt-44" // Reduced mt-10 for mobile
+        initial={{ y: isMobile ? 20 : 100, opacity: 0 }} // Reduced initial y for mobile
         animate={
-          isMobile 
-            ? (titleInView ? { y: 0, opacity: 1 } : { y: 50, opacity: 0 })
-            : (shouldAnimate && boxInView
-                ? { y: 0, opacity: 1 }
-                : { y: shouldAnimate ? 0 : 100, opacity: shouldAnimate ? 1 : 0 })
+          isMobile
+            ? titleInView
+              ? { y: 0, opacity: 1 }
+              : { y: 20, opacity: 0 }
+            : shouldAnimate && boxInView
+            ? { y: 0, opacity: 1 }
+            : { y: shouldAnimate ? 0 : 100, opacity: shouldAnimate ? 1 : 0 }
         }
         transition={{ duration: isMobile ? 0.6 : 0.5, ease: "easeOut" }}
       >
         About Me
       </motion.p>
-      
+
       <motion.div
         ref={boxRef}
         className="p-4 py-6 m-4 mb-40 bg-gray-800 mx-auto max-w-5xl hover:shadow-[0_10px_20px_rgba(74,222,128,0.4)] transition-shadow duration-300"
-        initial={{ scale: isMobile ? 1 : 0.8, y: isMobile ? 50 : 0, opacity: 0 }}
+        initial={{ scale: isMobile ? 1 : 0.8, y: isMobile ? 20 : 0, opacity: 0 }} // Reduced y for mobile
         animate={
           isMobile
-            ? (boxInView ? { y: 0, opacity: 1 } : { y: 50, opacity: 0 })
-            : (shouldAnimate && boxInView
-                ? { scale: 1, opacity: 1 }
-                : { scale: shouldAnimate ? 1 : 0.8, opacity: shouldAnimate ? 1 : 0 })
+            ? boxInView
+              ? { y: 0, opacity: 1 }
+              : { y: 20, opacity: 0 }
+            : shouldAnimate && boxInView
+            ? { scale: 1, opacity: 1 }
+            : { scale: shouldAnimate ? 1 : 0.8, opacity: shouldAnimate ? 1 : 0 }
         }
-        transition={{ 
-          duration: isMobile ? 0.8 : 0.3, 
-          ease: "easeOut", 
-          delay: isMobile ? 0.2 : 0 
+        transition={{
+          duration: isMobile ? 0.8 : 0.3,
+          ease: "easeOut",
+          delay: isMobile ? 0.2 : 0,
         }}
       >
         <p className="p-2 text-2xl font-thin text-white">
@@ -106,7 +109,7 @@ function About() {
               Download Resume
             </a>
           </button>
-          
+
           <p className="text-center">
             <a href="https://www.linkedin.com/in/kushm1/">
               <i className="px-3 text-5xl text-white transition-transform duration-200 cursor-pointer fa-brands fa-linkedin hover:scale-110 hover:text-green-400"></i>

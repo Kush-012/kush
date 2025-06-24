@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import pic from "./pic.jpg";
 
-function About() {
+function Home() {
   const typingRef = useRef(null);
 
   useEffect(() => {
@@ -24,7 +24,7 @@ function About() {
           className="flex flex-col items-center justify-center gap-8 pt-10 text-xl font-medium sm:flex-row sm:justify-between sm:pt-20 sm:gap-72 sm:items-start"
         >
           <div
-            className="pt-10 text-center sm:pt-56 sm:pl-64 sm:text-left"
+            className="pt-20 text-center sm:pt-56 sm:pl-64 sm:text-left"
           >
             <p
               className="mb-4 text-2xl font-bold sm:text-3xl md:text-5xl"
@@ -58,4 +58,4 @@ function About() {
   );
 }
 
-export default About;
+export default Home;
