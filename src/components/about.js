@@ -7,15 +7,15 @@ function About() {
   const [isMobile, setIsMobile] = useState(false);
   const prevScrollY = useRef(0);
 
-  // Mobile-optimized intersection observer
+  // Unified intersection observer for both mobile and PC
   const [titleRef, titleInView] = useInView({
-    triggerOnce: true,
-    threshold: isMobile ? 0.05 : 0.1, // Lower threshold for mobile
+    triggerOnce: false, // Allow re-triggering for scroll animations
+    threshold: 0.1, // Consistent threshold for both devices
   });
 
   const [boxRef, boxInView] = useInView({
-    triggerOnce: isMobile,
-    threshold: isMobile ? 0.05 : 0.5, // Lower threshold for mobile
+    triggerOnce: false, // Allow re-triggering
+    threshold: 0.5, // Consistent threshold
   });
 
   useEffect(() => {
@@ -30,8 +30,6 @@ function About() {
   }, []);
 
   useEffect(() => {
-    if (isMobile) return; // Skip scroll logic on mobile
-
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
 
@@ -48,24 +46,20 @@ function About() {
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [boxInView, isMobile]);
+  }, [boxInView]);
 
   return (
-    <div id="about" className="px-4 pt-4 sm:pt-10"> {/* Reduced pt-4 for mobile */}
+    <div id="about" className="px-4 pt-4 sm:pt-10">
       <motion.p
         ref={titleRef}
-        className="mt-10 text-4xl font-bold text-center text-green-400 sm:mt-44" // Reduced mt-10 for mobile
-        initial={{ y: isMobile ? 20 : 100, opacity: 0 }} // Reduced initial y for mobile
+        className="mt-10 font-serif text-4xl font-bold text-center text-green-400 sm:mt-44 md:font-sans"
+        initial={{ y: 100, opacity: 0 }}
         animate={
-          isMobile
-            ? titleInView
-              ? { y: 0, opacity: 1 }
-              : { y: 20, opacity: 0 }
-            : shouldAnimate && boxInView
+          shouldAnimate && titleInView
             ? { y: 0, opacity: 1 }
-            : { y: shouldAnimate ? 0 : 100, opacity: shouldAnimate ? 1 : 0 }
+            : { y: 100, opacity: 0 }
         }
-        transition={{ duration: isMobile ? 0.6 : 0.5, ease: "easeOut" }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
       >
         About Me
       </motion.p>
@@ -73,23 +67,15 @@ function About() {
       <motion.div
         ref={boxRef}
         className="p-4 py-6 m-4 mb-40 bg-gray-800 mx-auto max-w-5xl hover:shadow-[0_10px_20px_rgba(74,222,128,0.4)] transition-shadow duration-300"
-        initial={{ scale: isMobile ? 1 : 0.8, y: isMobile ? 20 : 0, opacity: 0 }} // Reduced y for mobile
+        initial={{ scale: 0.8, opacity: 0 }}
         animate={
-          isMobile
-            ? boxInView
-              ? { y: 0, opacity: 1 }
-              : { y: 20, opacity: 0 }
-            : shouldAnimate && boxInView
+          shouldAnimate && boxInView
             ? { scale: 1, opacity: 1 }
-            : { scale: shouldAnimate ? 1 : 0.8, opacity: shouldAnimate ? 1 : 0 }
+            : { scale: 0.8, opacity: 0 }
         }
-        transition={{
-          duration: isMobile ? 0.8 : 0.3,
-          ease: "easeOut",
-          delay: isMobile ? 0.2 : 0,
-        }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
       >
-        <p className="p-2 text-2xl font-thin text-white">
+        <p className="p-2 font-serif text-2xl font-thin text-white md:font-sans">
           I'm a Full Stack Web Developer with a passion for building
           user-friendly digital experiences. I enjoy working through the
           development process—from planning to deployment—and collaborating with
@@ -104,7 +90,7 @@ function About() {
         </p>
 
         <div className="flex flex-col justify-center gap-16 mt-20 sm:flex-row">
-          <button className="bg-green-400 text-black font-semibold px-6 py-2 rounded-full shadow-[0_0_10px_#4ade80] hover:shadow-[0_0_20px_#4ade80] transition duration-300 hover:bg-white text-2xl">
+          <button className="bg-green-400 text-black font-semibold px-6 py-2 rounded-full shadow-[0_0_10px_#4ade80] hover:shadow-[0_0_20px_#4ade80] transition duration-300 hover:bg-white text-2xl md:font-sans font-serif">
             <a href="https://drive.google.com/file/d/1TQnuUGpQq851DvUSkM4_H0iKBCYNE7dx/view?usp=sharing">
               Download Resume
             </a>

@@ -13,9 +13,9 @@ export default function Contact() {
       
       <div className="mb-8">
         <a 
-          href="mailto:kashishmukheja7@gmail.com" 
+          href="mailto:kushmehta124@gmail.com" 
           className="text-xl text-blue-600 transition-colors md:text-2xl hover:text-blue-800"
-        >
+        > 
           Email: kushmehta124@gmail.com
         </a> 
       </div>
